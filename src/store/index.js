@@ -4,8 +4,14 @@ import Vuex from "vuex";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
+  state: {
+    tabShow: true
+  },
+  mutations: {
+    tabShow() {
+      this.state.tabShow = !this.state.tabShow;
+    }
+  },
   actions: {},
   modules: {}
 });
