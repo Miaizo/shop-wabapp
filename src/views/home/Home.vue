@@ -2,35 +2,217 @@
   <div>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item>
-        <img src="../../assets/image/icon/home.png" alt="">
+        <img src alt />
       </van-swipe-item>
-      <van-swipe-item>2</van-swipe-item>
-      <van-swipe-item>3</van-swipe-item>
-      <van-swipe-item>4</van-swipe-item>
-      <van-swipe-item>5</van-swipe-item>
-      <van-swipe-item>6</van-swipe-item>
-      <van-swipe-item>7</van-swipe-item>
-      <van-swipe-item>8</van-swipe-item>
     </van-swipe>
+
+    <van-tabs v-model="active" sticky swipeable color="#fe5427">
+      <van-tab title="Shopee">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          :immediate-check="false"
+          @load="onLoad"
+        >
+          <van-grid :border="false" :column-num="2" :center="false">
+            <van-grid-item
+              class="item"
+              v-for="(item, index) in shopeeInfo"
+              :key="index"
+              @click="clickItems()"
+            >
+              <van-image
+                radius="10"
+                :src="item.imageLink"
+                height="150%"
+                fit="contain"
+              />
+              <div class="info">
+                <van-image
+                  width="32px"
+                  height="32px"
+                  :src="platformImg"
+                  style="margin-top:5px;flex-shrink:0;"
+                />
+                <div class="van-ellipsis">{{ item.title }}</div>
+              </div>
+              <div class="van-multi-ellipsis--l2">
+                {{ item.productDescription }}
+              </div>
+              <span class="price">{{ item.salePrice }}</span>
+              <span class="markingPrice" v-if="item.price">
+                {{ item.price }}
+              </span>
+              <van-button color="#FFE2CC" size="small">
+                <span class="save-money">Save</span>
+                <span class="save-money" v-if="memberLevel !== 2">
+                  {{ item.commissionList.commissionMember }}
+                </span>
+                <span class="save-money" v-if="memberLevel == 2">{{
+                  item.commissionList.commissionShopkeeper
+                }}</span>
+              </van-button>
+            </van-grid-item>
+          </van-grid>
+        </van-list>
+      </van-tab>
+      <van-tab title="Lazada">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+          class="van-list"
+        >
+          <van-grid :border="false" :column-num="2" :center="false">
+            <van-grid-item
+              class="item"
+              v-for="(item, index) in lazadaInfo"
+              :key="index"
+            >
+              <van-image
+                radius="10"
+                :src="item.imageLink"
+                width="100%"
+                height="150%"
+                fit="contain"
+              />
+              <div class="info">
+                <van-image
+                  width="32px"
+                  height="32px"
+                  :src="lazadaImg"
+                  style="margin-top:5px;flex-shrink:0;"
+                />
+                <div class="van-ellipsis">{{ item.title }}</div>
+              </div>
+              <div class="van-multi-ellipsis--l2">
+                {{ item.productDescription }}
+              </div>
+              <span class="price">{{ item.salePrice }}</span>
+              <span class="markingPrice" v-if="item.price">
+                {{ item.price }}
+              </span>
+              <van-button color="#FFE2CC" size="small">
+                <span class="save-money">Save</span>
+                <span class="save-money" v-if="memberLevel !== 2">
+                  {{ item.commissionList.commissionMember }}
+                </span>
+                <span class="save-money" v-if="memberLevel == 2">{{
+                  item.commissionList.commissionShopkeeper
+                }}</span>
+              </van-button>
+            </van-grid-item>
+          </van-grid>
+        </van-list>
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
+import { queryProductRecommend, homeConfig } from "@/api/api";
 export default {
   name: "Home",
   data() {
     return {
-      message: 1
+      shopeeInfo: [],
+      lazadaInfo: [],
+      loading: false,
+      finished: false,
+      active: 0,
+      platformImg: require("../../assets/image/home/platform_logo.png"),
+      lazadaImg: require("../../assets/image/home/lazada_logo.png"),
+      title: "",
+      shopeePage: 1,
+      lazadaPage: 1,
+      productDescription: "",
+      memberLevel: "1"
     };
+  },
+  created() {
+    queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
+      this.shopeeInfo = res.data.info;
+      this.shopeePage++;
+    });
+    queryProductRecommend("lazada", "TH", this.lazadaPage).then(res => {
+      this.shopeeInfo = res.data.info;
+      console.log(res);
+      this.lazadaPage++;
+    });
+    homeConfig("TH", "wap").then(res => {
+      console.log(res);
+    });
+  },
+  methods: {
+    onLoad() {
+      if (this.active === 0) {
+        queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
+          for (let i of res.data.info) {
+            this.shopeeInfo.push(i);
+          }
+          this.loading = false;
+          this.shopeePage++;
+        });
+      }
+      if (this.active === 1) {
+        queryProductRecommend("lazada", "TH", this.lazadaPage).then(res => {
+          for (let i of res.data.info) {
+            this.lazadaInfo.push(i);
+          }
+          this.loading = false;
+          this.lazadaPage++;
+        });
+      }
+    },
+    clickItems(){
+      console.log("777")
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+span {
+  text-overflow: ellipsis;
+  margin-left: 5px;
+}
 .my-swipe .van-swipe-item {
   color: #fff;
   font-size: 20px;
   line-height: 150px;
   text-align: center;
+}
+.van-list {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.price {
+  color: #fe5427;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px 0 0 5px;
+}
+.markingPrice {
+  color: #a4a4a4;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+.save-money {
+  color: #fe5427;
+}
+.info {
+  display: flex;
+  align-items: flex-end;
+}
+.van-ellipsis {
+  margin-left: 5px;
+}
+.item {
+  width: 48vw;
 }
 </style>
