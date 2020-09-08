@@ -67,7 +67,9 @@ export function request2(option) {
     // 1.创建axios的实例
     const instance = axios.create({
       baseURL: "https://seashop.shop/apis",
-      timeout: 5000
+      // baseURL: "/apis",
+      timeout: 5000,
+      type: "json"
     });
 
     // 配置请求和响应拦截

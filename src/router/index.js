@@ -7,23 +7,31 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home
+    name: "home",
+    component: Home,
+    meta: {
+      keepAlive: true // 需要缓存 
+    }
   },
   {
     path: "/category",
-    name: "Category",
+    name: "category",
     component: () => import("../views/category/Category.vue")
   },
   {
     path: "/cart",
-    name: "Cart",
+    name: "cart",
     component: () => import("../views/cart/Cart.vue")
   },
   {
-    path: "/myself",
-    name: "Myself",
+    path: "/account",
+    name: "account",
     component: () => import("../views/account/Account.vue")
+  },
+  {
+    path: "/thirdParty",
+    name: "thirdParty",
+    component: () => import("../views/thirdparty/thirdParty.vue")
   }
 ];
 

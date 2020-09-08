@@ -20,38 +20,32 @@
               class="item"
               v-for="(item, index) in shopeeInfo"
               :key="index"
-              @click="clickItems()"
+              @click="clickItems(item.id, item.platform)"
             >
-              <van-image
-                radius="10"
-                :src="item.imageLink"
-                height="150%"
-                fit="contain"
-              />
+              <van-image radius="10" :src="item.imageLink" height="150%" fit="contain" />
               <div class="info">
                 <van-image
-                  width="32px"
-                  height="32px"
+                  width="1rem"
+                  height="1rem"
                   :src="platformImg"
                   style="margin-top:5px;flex-shrink:0;"
                 />
                 <div class="van-ellipsis">{{ item.title }}</div>
               </div>
-              <div class="van-multi-ellipsis--l2">
-                {{ item.productDescription }}
-              </div>
+              <div class="van-multi-ellipsis--l2">{{ item.productDescription }}</div>
               <span class="price">{{ item.salePrice }}</span>
-              <span class="markingPrice" v-if="item.price">
-                {{ item.price }}
-              </span>
+              <span class="markingPrice" v-if="item.price">{{ item.price }}</span>
               <van-button color="#FFE2CC" size="small">
                 <span class="save-money">Save</span>
-                <span class="save-money" v-if="memberLevel !== 2">
-                  {{ item.commissionList.commissionMember }}
-                </span>
-                <span class="save-money" v-if="memberLevel == 2">{{
+                <span
+                  class="save-money"
+                  v-if="memberLevel !== 2"
+                >{{ item.commissionList.commissionMember }}</span>
+                <span class="save-money" v-if="memberLevel == 2">
+                  {{
                   item.commissionList.commissionShopkeeper
-                }}</span>
+                  }}
+                </span>
               </van-button>
             </van-grid-item>
           </van-grid>
@@ -70,6 +64,7 @@
               class="item"
               v-for="(item, index) in lazadaInfo"
               :key="index"
+              @click="clickItems(item.id, item.platform)"
             >
               <van-image
                 radius="10"
@@ -80,28 +75,27 @@
               />
               <div class="info">
                 <van-image
-                  width="32px"
-                  height="32px"
+                  width="1rem"
+                  height="1rem"
                   :src="lazadaImg"
                   style="margin-top:5px;flex-shrink:0;"
                 />
                 <div class="van-ellipsis">{{ item.title }}</div>
               </div>
-              <div class="van-multi-ellipsis--l2">
-                {{ item.productDescription }}
-              </div>
+              <div class="van-multi-ellipsis--l2">{{ item.productDescription }}</div>
               <span class="price">{{ item.salePrice }}</span>
-              <span class="markingPrice" v-if="item.price">
-                {{ item.price }}
-              </span>
+              <span class="markingPrice" v-if="item.price">{{ item.price }}</span>
               <van-button color="#FFE2CC" size="small">
                 <span class="save-money">Save</span>
-                <span class="save-money" v-if="memberLevel !== 2">
-                  {{ item.commissionList.commissionMember }}
-                </span>
-                <span class="save-money" v-if="memberLevel == 2">{{
+                <span
+                  class="save-money"
+                  v-if="memberLevel !== 2"
+                >{{ item.commissionList.commissionMember }}</span>
+                <span class="save-money" v-if="memberLevel == 2">
+                  {{
                   item.commissionList.commissionShopkeeper
-                }}</span>
+                  }}
+                </span>
               </van-button>
             </van-grid-item>
           </van-grid>
@@ -132,18 +126,33 @@ export default {
     };
   },
   created() {
+    // new Promise(() => {
+    //   queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
+    //     this.shopeeInfo = res.data.info;
+    //     this.shopeePage++;
+    //   });
+    // }).then(() => {
+    //   queryProductRecommend("lazada", "TH", this.lazadaPage).then(res => {
+    //     this.lazadaInfo = res.data.info;
+    //     this.lazadaPage++;
+    //   });
+    // });
+
     queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
       this.shopeeInfo = res.data.info;
       this.shopeePage++;
     });
     queryProductRecommend("lazada", "TH", this.lazadaPage).then(res => {
-      this.shopeeInfo = res.data.info;
+      this.lazadaInfo = res.data.info;
       console.log(res);
       this.lazadaPage++;
     });
     homeConfig("TH", "wap").then(res => {
       console.log(res);
     });
+  },
+  mounted() {
+    global.scrollTo(0,2000);
   },
   methods: {
     onLoad() {
@@ -166,8 +175,15 @@ export default {
         });
       }
     },
-    clickItems(){
-      console.log("777")
+    clickItems(id, origin) {
+      this.$router.push({
+        // path: "thirdParty",
+        name: "thirdParty",
+        params: {
+          id,
+          origin
+        }
+      });
     }
   }
 };
@@ -193,7 +209,7 @@ span {
 .price {
   color: #fe5427;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 400;
   margin: 10px 0 0 5px;
 }
 .markingPrice {

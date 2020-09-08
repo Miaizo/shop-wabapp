@@ -6,7 +6,7 @@ export function homeConfig(countryCode, platform) {
     params: {
       countryCode,
       platform
-    },
+    }
     // headers: {
     //   'Content-Type': 'application/json' ,
     //   'countryCode': 66,
@@ -22,6 +22,16 @@ export function queryProductRecommend(origin, countryCode, current) {
       origin,
       countryCode,
       current
+    }
+  });
+}
+// 获取第三方商品详情
+export function thirdPartyProductDetails(id, origin, countryCode) {
+  return request({
+    url: "product/product/all_origin/get/" + id,
+    params: {
+      origin,
+      countryCode
     }
   });
 }
