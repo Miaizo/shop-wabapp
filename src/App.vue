@@ -2,9 +2,9 @@
   <div id="app">
     <div class="max-width">
       <keep-alive>
-        <router-view v-if="$route.meta.keepAlive" transition-mode=""></router-view>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" transition-mode="out-in"></router-view>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
       <!-- <router-view /> -->
       <Tabbar v-if="tabType" />
     </div>

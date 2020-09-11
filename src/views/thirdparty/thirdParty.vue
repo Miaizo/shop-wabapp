@@ -19,24 +19,37 @@
     </div>
     <div style="margin-left: 1rem;">
       <div class="description">
-        <van-image class="plat-icon" fit="contain" :src="platformImg" v-if="this.origin == 'shopee'" />
-        <van-image class="plat-icon" fit="contain" :src="lazadaImg" v-else-if="this.origin == 'lazada'" />
+        <van-image
+          class="plat-icon"
+          fit="contain"
+          :src="platformImg"
+          v-if="this.origin == 'shopee'"
+        />
+        <van-image
+          class="plat-icon"
+          fit="contain"
+          :src="lazadaImg"
+          v-else-if="this.origin == 'lazada'"
+        />
         <div class="van-multi-ellipsis--l2">{{this.data.title}}</div>
       </div>
     </div>
     <div class="van-hairline--bottom" style="margin:0.5rem"></div>
     <div style="margin: 1rem;">
-      <span style="white-space:pre-wrap" v-if="this.data.productDescription">{{ this.data.productDescription }}</span>
+      <span
+        style="white-space:pre-wrap"
+        v-if="this.data.productDescription"
+      >{{ this.data.productDescription }}</span>
     </div>
     <van-divider></van-divider>
     <van-goods-action text="123">
       <van-goods-action-icon :icon="serviceImg" text="Service" />
-      <van-goods-action-button type="warning" text="Share" />
+      <van-goods-action-button type="warning" text="Share" @click="shareBtn" />
       <van-goods-action-button type="danger" text="Buy Now" />
     </van-goods-action>
   </div>
 </template>
-
+<script type="text/javascript" src="./dist/clipboard.min.js"></script>
 <script>
 import { thirdPartyProductDetails } from "@/api/api";
 export default {
@@ -51,7 +64,8 @@ export default {
       origin: "",
       countryCode: "TH",
       data: {},
-      commissionList: {}
+      commissionList: {},
+      msg: "https://seashop.shop/index"
     };
   },
   created() {
@@ -71,6 +85,18 @@ export default {
     },
     back() {
       this.$router.back();
+    },
+    shareBtn() {
+      this.$copyText(this.msg).then(
+        e => {
+          this.$toast.success("Copied Successfully");
+          console.log(e);
+        },
+        e => {
+          this.$toast.fail("Copied Failed");
+          console.log(e);
+        }
+      );
     }
   }
 };

@@ -35,7 +35,7 @@
               <div class="van-multi-ellipsis--l2">{{ item.productDescription }}</div>
               <span class="price">{{ item.salePrice }}</span>
               <span class="markingPrice" v-if="item.price">{{ item.price }}</span>
-              <van-button color="#FFE2CC" size="small">
+              <div class="save-btn">
                 <span class="save-money">Save</span>
                 <span
                   class="save-money"
@@ -46,7 +46,19 @@
                   item.commissionList.commissionShopkeeper
                   }}
                 </span>
-              </van-button>
+              </div>
+              <!-- <van-button color="#FFE2CC"  size="large" block >
+                <div class="save-money">Save</div>
+                <div
+                  class="save-money"
+                  v-if="memberLevel !== 2"
+                >{{ item.commissionList.commissionMember }}</div>
+                <span class="save-money" v-if="memberLevel == 2">
+                  {{
+                  item.commissionList.commissionShopkeeper
+                  }}
+                </span>
+              </van-button> -->
             </van-grid-item>
           </van-grid>
         </van-list>
@@ -85,7 +97,7 @@
               <div class="van-multi-ellipsis--l2">{{ item.productDescription }}</div>
               <span class="price">{{ item.salePrice }}</span>
               <span class="markingPrice" v-if="item.price">{{ item.price }}</span>
-              <van-button color="#FFE2CC" size="small">
+              <div class="save-btn">
                 <span class="save-money">Save</span>
                 <span
                   class="save-money"
@@ -96,7 +108,18 @@
                   item.commissionList.commissionShopkeeper
                   }}
                 </span>
-              </van-button>
+              </div>
+              <!-- <van-button color="#FFE2CC" size="small" block>
+                <div class="save-money">
+                  Save
+                  <span v-if="memberLevel !== 2">{{ item.commissionList.commissionMember }}</span>
+                  <span v-if="memberLevel == 2">
+                    {{
+                    item.commissionList.commissionShopkeeper
+                    }}
+                  </span>
+                </div>
+              </van-button> -->
             </van-grid-item>
           </van-grid>
         </van-list>
@@ -126,18 +149,6 @@ export default {
     };
   },
   created() {
-    // new Promise(() => {
-    //   queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
-    //     this.shopeeInfo = res.data.info;
-    //     this.shopeePage++;
-    //   });
-    // }).then(() => {
-    //   queryProductRecommend("lazada", "TH", this.lazadaPage).then(res => {
-    //     this.lazadaInfo = res.data.info;
-    //     this.lazadaPage++;
-    //   });
-    // });
-
     queryProductRecommend("shopee", "TH", this.shopeePage).then(res => {
       this.shopeeInfo = res.data.info;
       this.shopeePage++;
@@ -151,9 +162,7 @@ export default {
       console.log(res);
     });
   },
-  mounted() {
-    global.scrollTo(0,2000);
-  },
+  mounted() {},
   methods: {
     onLoad() {
       if (this.active === 0) {
@@ -220,6 +229,15 @@ span {
 }
 .save-money {
   color: #fe5427;
+  display: inline-block;
+}
+.save-btn{
+  background-color:#FFE2CC;
+  height:4rem;
+  font-size:12px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 .info {
   display: flex;
@@ -229,6 +247,7 @@ span {
   margin-left: 5px;
 }
 .item {
-  width: 48vw;
+  max-width: 48vw;
+  height: auto;
 }
 </style>
