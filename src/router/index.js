@@ -32,7 +32,12 @@ const routes = [
     path: "/thirdParty",
     name: "thirdParty",
     component: () => import("../views/thirdparty/thirdParty.vue")
-  }
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/login/Login.vue")
+  },
 ];
 
 const router = new VueRouter({

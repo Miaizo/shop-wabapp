@@ -1,5 +1,5 @@
 import axios from "axios";
-
+axios.defaults.headers.common['Authorization'] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJVU0VSX05BTUUiOiJYdWxpbiIsImV4cCI6MTYwMDkyODgzOH0.poSbWrUUiXfOIggiZrl_6362Iqx0IRrdv9qutPwVHEw";
 export function request(option) {
   return new Promise((resolve, reject) => {
     // 1.创建axios的实例

@@ -28,7 +28,7 @@ export default {
           active: require("../assets/image/icon/home_cover.png")
         },
         {
-          name: "category",
+          name: "login",
           title: "分类",
           normal: require("../assets/image/icon/categories.png"),
           active: require("../assets/image/icon/categories_cover.png")

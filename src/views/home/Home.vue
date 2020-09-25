@@ -1,11 +1,11 @@
 <template>
   <div>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item>
-        <img src alt />
-      </van-swipe-item>
+      <van-swipe-item>1</van-swipe-item>
+      <van-swipe-item>2</van-swipe-item>
+      <van-swipe-item>3</van-swipe-item>
+      <van-swipe-item>4</van-swipe-item>
     </van-swipe>
-
     <van-tabs v-model="active" sticky swipeable color="#fe5427">
       <van-tab title="Shopee">
         <van-list
@@ -47,18 +47,6 @@
                   }}
                 </span>
               </div>
-              <!-- <van-button color="#FFE2CC"  size="large" block >
-                <div class="save-money">Save</div>
-                <div
-                  class="save-money"
-                  v-if="memberLevel !== 2"
-                >{{ item.commissionList.commissionMember }}</div>
-                <span class="save-money" v-if="memberLevel == 2">
-                  {{
-                  item.commissionList.commissionShopkeeper
-                  }}
-                </span>
-              </van-button> -->
             </van-grid-item>
           </van-grid>
         </van-list>
@@ -109,17 +97,6 @@
                   }}
                 </span>
               </div>
-              <!-- <van-button color="#FFE2CC" size="small" block>
-                <div class="save-money">
-                  Save
-                  <span v-if="memberLevel !== 2">{{ item.commissionList.commissionMember }}</span>
-                  <span v-if="memberLevel == 2">
-                    {{
-                    item.commissionList.commissionShopkeeper
-                    }}
-                  </span>
-                </div>
-              </van-button> -->
             </van-grid-item>
           </van-grid>
         </van-list>
@@ -197,17 +174,21 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
+$font-color: #fe5427;
 span {
   text-overflow: ellipsis;
   margin-left: 5px;
 }
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
+.my-swipe {
+  transform: translateZ(0);
+  .van-swipe-item {
+    color: #fff;
+    font-size: 20px;
+    line-height: 150px;
+    text-align: center;
+    background-color: #39a9ed;
+  }
 }
 .van-list {
   margin-top: 10px;
@@ -216,7 +197,7 @@ span {
   flex-wrap: wrap;
 }
 .price {
-  color: #fe5427;
+  color: $font-color;
   font-size: 20px;
   font-weight: 400;
   margin: 10px 0 0 5px;
@@ -227,15 +208,15 @@ span {
   font-weight: 400;
   text-decoration: line-through;
 }
-.save-money {
-  color: #fe5427;
-  display: inline-block;
-}
-.save-btn{
-  background-color:#FFE2CC;
-  height:4rem;
-  font-size:12px;
-  display:flex;
+.save-btn {
+  span {
+    color: $font-color;
+    display: inline-block;
+  }
+  background-color: #ffe2cc;
+  height: 4rem;
+  font-size: 12px;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

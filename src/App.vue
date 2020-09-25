@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="max-width">
+    <div>
       <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
@@ -25,7 +25,6 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log(to.path);
       if (
         to.path == "/" ||
         to.path == "/category" ||
@@ -45,4 +44,11 @@ export default {
   }
 };
 </script>
-<style></style>
+<style lang="scss">
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+</style>

@@ -5,12 +5,10 @@ export function homeConfig(countryCode, platform) {
     url: "/appHome/homeConfig",
     params: {
       countryCode,
-      platform
-    }
+      platform,
+    },
     // headers: {
-    //   'Content-Type': 'application/json' ,
-    //   'countryCode': 66,
-    //   'platform': "wap"
+    //   countryCode: "TH"
     // }
   });
 }
@@ -32,6 +30,17 @@ export function thirdPartyProductDetails(id, origin, countryCode) {
     params: {
       origin,
       countryCode
+    }
+  });
+}
+// 获取验证码
+export function getVerifyCode(phone, countryCode) {
+  return request2({
+    url: "user/getVerifyCode/",
+    params: {
+      mobile: phone,
+      areaCode: countryCode,
+      languageType: "EN"
     }
   });
 }
